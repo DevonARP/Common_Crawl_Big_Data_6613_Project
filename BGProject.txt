@@ -1,0 +1,50 @@
+Solution
+	7 Pebibytes, about 10% more than corresponding suffix
+	Over 200 files used, a bit over 1 Tibibyte
+	A little over 5 gibibytes per file
+	Used Pyspark to read and process data
+	Google Colab and AWS EMR for hardware virtualizion
+
+Approach
+	Did all 3 analysis with colab, slow but needed less CPU and RAM
+	4 hours for Topic Modeling, 2 hours each for Popularity and TLD
+	AWS EMR was significantly faster and more expensive
+	More compute power was added
+	Did 75% of the data in less than 1 hour for topic modeling
+	Originally had 4 jobs but ended up using 3
+
+EMR
+	Added Jupyter applications to the EMR to enable EMR notebooks and make it easier to edit the code and submit jobs
+	Used an older version of EMR and Spark due to it being easier to change the configurations in a EMR Notebook
+	Have to chagne configs using SSH protocol, which is fine just annoying as the nodes resize and reset if inactive
+	Would be even faster on newer EMR and Spark version
+	1 master node and 4 core nodes was utilized, no task nodes just in case space was needed
+	Scaling was between 2 and 4 core nodes
+	m5 xttra large is one of the cheaper CPU's offered, are faster and more efficient ones available
+	Used EBS, which is slower than an SSD as it was cheaper and did offer a detachable option, which was unneeded
+	Actually ran out of RAM, when having 4 concurrent processes of the data
+	Which is why we used 3 processes and only used 75% of the 200 files
+
+S3
+	The first file is the custom index file made using a text editor
+	3 folders are the resutls from the analysis in Pyspark
+
+Popularity
+	Ended up with 10 files, each represetning 20 of the input files
+
+TLD
+	Same as Popularity
+
+Topic Modeling
+	First method had it as 200 files each corresponding to a single inout file
+	Second method ended up having 150 files corresponding to 150 input files just with 3 different processes
+
+Jobs
+	4 notebooks used for the processes, only 3 could be completed distributedly with our hardware virtualization
+
+Results
+	Examples of the output text
+	Popularity and TLD are just a key value pair corresponding to the amount of times an object was mentioned
+	Topic modeling isn't complete here, the final resutls will be shown on the next page
+	But can see how words are grouped together into topics here
+	
